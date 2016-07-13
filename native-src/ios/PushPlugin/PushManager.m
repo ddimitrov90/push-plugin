@@ -142,14 +142,17 @@ static IMP handleActionWithIdentifierOriginalMethod = NULL;
     
     UIApplicationState appState = UIApplicationStateActive;
     if ([application respondsToSelector:@selector(applicationState)]) {
+        NSLog(@"getting app state");
         appState = application.applicationState;
     }
     
     if (appState == UIApplicationStateActive) {
+                NSLog(@"active app state");
         [Push sharedInstance].notificationMessage = userInfo;
         [Push sharedInstance].isInline = YES;
         [[Push sharedInstance] notificationReceived];        
     } else {
+                        NSLog(@"background app state");
         [Push sharedInstance].launchNotification = userInfo;
     }
 }
