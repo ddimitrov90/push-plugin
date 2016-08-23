@@ -20,6 +20,7 @@ static IMP handleActionWithIdentifierOriginalMethod = NULL;
 + (void)load {
     [[NSNotificationCenter defaultCenter] addObserverForName:UIApplicationDidFinishLaunchingNotification object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification *note) {
         
+        NSLog(@"UIApplicationDidFinishLaunchingNotification");
         UIApplication *app = [UIApplication sharedApplication];
         id<UIApplicationDelegate> appDelegate = app.delegate;
         
