@@ -152,7 +152,7 @@ static IMP handleActionWithIdentifierOriginalMethod = NULL;
         void (*originalImp)(id, SEL, UIApplication *, NSDictionary *) = didReceiveOriginalMethod;
         originalImp(self, @selector(application:didReceiveRemoteNotification:), application, userInfo);
     }
-    NSLog(@"didReceiveNotification");
+    NSLog(@"didReceiveRemoteNotification");
     
     UIApplicationState appState = UIApplicationStateActive;
     NSLog(@"%@", appState);
