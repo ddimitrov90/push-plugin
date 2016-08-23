@@ -32,6 +32,7 @@ static IMP handleActionWithIdentifierOriginalMethod = NULL;
         // TODO - ????
         Method didBecomeActiveOriginal = class_getInstanceMethod(appDelegate.class, @selector(applicationDidBecomeActive:));
         if (didBecomeActiveOriginal) {
+            NSLog(@"didBecomeActiveOriginal");
             didBecomeActiveOriginalMethod = method_getImplementation(didBecomeActiveOriginal);
             method_exchangeImplementations(didBecomeActiveOriginal, didBecomeActiveMethod);
         } else {
@@ -71,6 +72,8 @@ static IMP handleActionWithIdentifierOriginalMethod = NULL;
         
         Method didReceiveOriginal = class_getInstanceMethod(appDelegate.class, @selector(application:didReceiveRemoteNotification:));
         if (didReceiveOriginal) {
+            NSLog(@"didReceiveOriginal");
+
             didReceiveOriginalMethod = method_getImplementation(didReceiveOriginal);
             method_exchangeImplementations(didReceiveOriginal, didReceiveMethod);
         } else {
@@ -101,8 +104,9 @@ static IMP handleActionWithIdentifierOriginalMethod = NULL;
                                                  name:@"UIApplicationDidFinishLaunchingNotification" object:nil];
     
     // TODO
+    NSLog(@"Init called");
     [[NSNotificationCenter defaultCenter]addObserver:self
-                                            selector:@selector(my_applicationDidBecomeActive)
+                                            selector:@selector(my_applicationDidBecomeActive:)
                                                 name:@"UIApplicationDidBecomeActiveNotification" object:nil];
     
     return self;
@@ -121,6 +125,7 @@ static IMP handleActionWithIdentifierOriginalMethod = NULL;
 // TODO
 - (void)my_applicationDidBecomeActive:(UIApplication *)application
 {
+    NSLog(@"my_applicationDidBecomeActive");
     if (didBecomeActiveOriginalMethod) {
         void (*originalImp)(id, SEL, UIApplication *) = didBecomeActiveOriginalMethod;
         originalImp(self, @selector(applicationDidBecomeActive:), application);
@@ -138,7 +143,7 @@ static IMP handleActionWithIdentifierOriginalMethod = NULL;
         void (*originalImp)(id, SEL, UIApplication *, NSData *) = didRegisterOriginalMethod;
         originalImp(self, @selector(application:didRegisterForRemoteNotificationsWithDeviceToken:), application, deviceToken);
     }
-    NSLog(@"%@", deviceToken);
+    NSLog(@"%@%@", deviceToken, @"device token");
     [[Push sharedInstance] didRegisterForRemoteNotificationsWithDeviceToken:deviceToken];
 }
 
@@ -150,6 +155,7 @@ static IMP handleActionWithIdentifierOriginalMethod = NULL;
     NSLog(@"didReceiveNotification");
     
     UIApplicationState appState = UIApplicationStateActive;
+    NSLog(@"%@", appState);
     if ([application respondsToSelector:@selector(applicationState)]) {
         NSLog(@"getting app state");
         appState = application.applicationState;
