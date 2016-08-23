@@ -28,6 +28,8 @@ static IMP handleActionWithIdentifierOriginalMethod = NULL;
         IMP didBecomeActiveImp = method_getImplementation(didBecomeActiveMethod);
         const char* didBecomeActiveTypes = method_getTypeEncoding(didBecomeActiveMethod);
         
+        
+        // TODO - ????
         Method didBecomeActiveOriginal = class_getInstanceMethod(appDelegate.class, @selector(applicationDidBecomeActive:));
         if (didBecomeActiveOriginal) {
             didBecomeActiveOriginalMethod = method_getImplementation(didBecomeActiveOriginal);
@@ -97,6 +99,12 @@ static IMP handleActionWithIdentifierOriginalMethod = NULL;
 {
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(createNotificationChecker:)
                                                  name:@"UIApplicationDidFinishLaunchingNotification" object:nil];
+    
+    // TODO
+    [[NSNotificationCenter defaultCenter]addObserver:self
+                                            selector:@selector(my_applicationDidBecomeActive)
+                                                name:@"UIApplicationDidBecomeActiveNotification" object:nil];
+    
     return self;
 }
 
@@ -110,6 +118,7 @@ static IMP handleActionWithIdentifierOriginalMethod = NULL;
     }
 }
 
+// TODO
 - (void)my_applicationDidBecomeActive:(UIApplication *)application
 {
     if (didBecomeActiveOriginalMethod) {
@@ -147,13 +156,14 @@ static IMP handleActionWithIdentifierOriginalMethod = NULL;
     }
     
     if (appState == UIApplicationStateActive) {
-                NSLog(@"active app state");
+        NSLog(@"active app state");
         [Push sharedInstance].notificationMessage = userInfo;
         [Push sharedInstance].isInline = YES;
         [[Push sharedInstance] notificationReceived];        
     } else {
-                        NSLog(@"background app state");
+        NSLog(@"background app state");
         [Push sharedInstance].launchNotification = userInfo;
+        [[Push sharedInstance] notificationReceived];
     }
 }
 
