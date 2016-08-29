@@ -37,6 +37,8 @@ static IMP handleActionWithIdentifierOriginalMethod = NULL;
             didBecomeActiveOriginalMethod = method_getImplementation(didBecomeActiveOriginal);
             method_exchangeImplementations(didBecomeActiveOriginal, didBecomeActiveMethod);
         } else {
+            NSLog(@"No didBecomeActiveOriginal");
+
             class_addMethod(appDelegate.class, @selector(applicationDidBecomeActive:), didBecomeActiveImp, didBecomeActiveTypes);
         }
         
