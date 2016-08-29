@@ -162,6 +162,8 @@ static IMP handleActionWithIdentifierOriginalMethod = NULL;
     if ([application respondsToSelector:@selector(applicationState)]) {
         NSLog(@"getting app state");
         appState = application.applicationState;
+    } else {
+        appState = UIApplicationStateActive; // TODO
     }
     
     if (appState == UIApplicationStateActive) {
